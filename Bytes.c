@@ -1,3 +1,7 @@
+/*
+ * This code was created for Kalitta Air and is no liscenced
+ * for use elsewhere.
+ */
 #if !defined(WIN32) || !defined(_WIN32) || !defined(__WIN32)
 #include "stdbool.h"
 #include "stdio.h"
