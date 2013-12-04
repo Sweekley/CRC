@@ -38,6 +38,7 @@ int main(void){
 	char *textMsg = "ADS7-";
 	//char *buff=" ";
 	int msg_length = 0;
+	char convBin[9];
 	//char textMsgHex[31] = " ";				//Test text Message in Hex
 	//char
 	//int test = 0x4B;
@@ -48,8 +49,8 @@ int main(void){
 	//printf("Test Message: %s\n", textMsg);
 
 	//Method above returns the location of the string me'thinks
-	int i = 0;
-	int j = 0;
+	int i,j,n;
+	i = j = n = 0;	//set to zero
 	//unsigned int ch = 0;
 	char binary[3] = " ";
 	msg_length = (sizeof(textMsg)/sizeof(textMsg[0])+1);
@@ -57,13 +58,27 @@ int main(void){
 	for(i = 0; i<msg_length; i++)
 	{
 		printf("%i\n",i);
+		//quick converstion to hex
 		printf("Char %c: Hex: 0x\%x \n",textMsg[i],textMsg[i]);
 		sprintf(binary, "0x\%x",textMsg[i]);
 		int number = (int)strtol(binary,NULL,16);
-		printf("Int: %i\n",number);
-		for(i=7;i>=0;i--){
-			printf("&#32;d", (val & (1<<)))
+		printf("Number: %i\n", number);
+		//Now convert to binary
+		for(j = 0; j<= 7; j++){
+			if((number & 0x80 )!= 0){
+				printf("1");
+			}
+			else{
+				printf("0");
+			}
+			if(j == nibble){
+				printf(" ");
+			}
+			number = number << 1;
 		}
+		printf("\n");
+		//now this needs to be put into a buffer for later
+
 		//printf("Buff: %s \n",binary);
 		//printf("Buff: %s",buff);
 		//printf("Buff: %s", buff);
