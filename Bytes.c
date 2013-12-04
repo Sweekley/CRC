@@ -1,7 +1,12 @@
 /*
  * This code was created for Kalitta Air and is no liscenced
- * for use elsewhere.
+ * for use elsewhere. References
+ * [1] ARINC 622-4
+ * [2] ARINC 429
+ * [3] Notes from Carl
  */
+
+//work in either linux or windows
 #if !defined(WIN32) || !defined(_WIN32) || !defined(__WIN32)
 #include "stdbool.h"
 #include "stdio.h"
@@ -15,18 +20,20 @@
 #define octet 		7 //really 8 digits but starts at zero
 #define nibble 		3 //really 4 bits
 #define offset 		1 //C programming offset to fortran
+//#define IMI
+
 int main(void){
 	/*
 	 * This was created for Kalitta Air as an attempt
 	 * to figure out the CRC for LDU messages
-	 *
+	 * NOTE: This only works if IMI is always true
 	 */
-
-	//Hex version
+	//TODO: Figure out why its always skipping #1 when its char []
 	//char fx[16] = "10001000000100001"; 	//x^16 + x^12 + x^5 + x^0
-	//char textMsg[] = "ADS7-";			//Test text Message from 622-4
-	char *textMsg = "ADS7-";
+#ifdef IMI
+	char *textMsg = "ADS07-";
 	//char *buff=" ";
+	//char *total_Buff;
 	int msg_length = 0;
 
 
@@ -34,9 +41,12 @@ int main(void){
 	i = j = n = 0;	//set to zero
 	//unsigned int ch = 0;
 	char binary[3] = " ";
-	msg_length = (sizeof(textMsg)/sizeof(textMsg[0])+1);
-
-	for(i = 0; i<msg_length; i++)
+	//int textMsg_length = sizeof(textMsg);
+	//int char_length = sizeof(textMsg[0]);
+	//msg_length = (sizeof(textMsg)/sizeof(textMsg[0])-2);
+	msg_length = strlen(textMsg)-offset;
+	//printf("Msg_leg:%i TextMsg:%i Char:%i \n",msg_length,textMsg_length,char_length);
+	for(i = 0; i<=msg_length; i++)
 	{
 		printf("%i\n",i);
 		//quick converstion to hex
@@ -57,45 +67,77 @@ int main(void){
 			}
 			number = number << 1;
 		}
-		printf("\n");
+		printf("\n\n");
 		//now this needs to be put into a buffer for later
-
-
 	}
-	return 0;
+	return 0; //tells the user its returning in IMI mode
+#endif
+
+#ifndef IMI
+	//here the code will work under the assumption is straigh bit/hex format
+	char *textMsg = "ADS07-";		//each one is looked at signularly
+	int i,j;						//incrementor
+	i = j = 0;
+	int number = 0;
+	//int msg_length = (sizeof(textMsg)/sizeof(textMsg[0])-2);
+	int msg_length = strlen(textMsg)-1;
+	//char binary = " ";
+	//printf("Msg_length: %i \n",msg_length);
+	for(i=0; i<=msg_length; i++){
+		printf("increment: %i \n",i);
+		//only need 1 char at a time
+		printf("Char: %c \n",textMsg[i]);
+		if((textMsg[i]>='0')&&(textMsg[i]<='9')){
+
+			number = textMsg[i] - '0';
+			//number = atoi(&textMsg[i]);
+		}
+		//if(isalpha(textMsg[i])){ //if is an alphabetic
+		else{
+			switch(textMsg[i]){
+			case 'A':
+				number = 10;
+				break;
+			case 'B':
+				number = 11;
+				break;
+			case 'C':
+				number = 12;
+				break;
+			case 'D':
+				number = 13;
+				break;
+			case 'E':
+				number = 14;
+				break;
+			case 'F':
+				number = 15;
+				break;
+			default:
+				puts("Something wicked happened");
+				break;
+			}
+		}
+		printf("Num: %i \n",number);
+		for(j = 0; j<= nibble; j++){
+			if((number & 0x30 )!= 0){
+				printf("1");
+			}
+			else{
+				printf("0");
+			}
+			if(j == nibble){
+				printf(" ");
+			}
+			number = number << 1;
+		}
+		printf("\n \n");
+	}
+
+	return 1;	//Tells user that we are in bit oriented mode
+#endif
+
+
 }
-/*--Scratch Pad --*/
-//non-char approach
-/*	char *textMsg = "ADS072D";			//Acutal message
-int fx[5],i=0; //= 0b10001000000100001;
-for(i = 0; i>=5;i++){
-	fx[i] = 0b0000;
-};
-int test = 0b1101;	//0-8
-puts("\n");
-puts("Testing binary");
-printf("f(x): %i ",test);
-*/
-//char textMsgHex[31] = " ";				//Test text Message in Hex
-//char
-//int test = 0x4B;
-//char test[0] = "A";
-//printf("f(x): %i \n",test);
-//printf("Text Message: %02X\n", test);
-//printf("Text Message: %02X\n", &textMsg);
-//printf("Test Message: %s\n", textMsg);
-//char convBin[9];
-//Method above returns the location of the string me'thinks
-//printf("Msg length: %i\n",msg_length);
-//printf("Buff: %s \n",binary);
-//printf("Buff: %s",buff);
-//printf("Buff: %s", buff);
-//sprintf(buff,"0x\%x",textMsg[i]);
-//binary = (int)strtol(textMsg,NULL,16);
-//printf("Binary: %i",binary);
-//printf("Buff: %s \n",buff);
-//printf("Binary: %i \n",ch);
-//printf("Hex: %02x\n",textMsg[i]);
-//binary = (int)strtol(&textMsg[i],NULL,16);
-//printf("Binary: %i\n",binary);
+
 
