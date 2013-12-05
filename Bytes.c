@@ -5,7 +5,7 @@
  * [2] ARINC 429
  * [3] Notes from Carl
  */
-
+//TODO: Separate out into a main file and subfile
 //work in either linux or windows
 #if !defined(WIN32) || !defined(_WIN32) || !defined(__WIN32)
 #include "stdbool.h"
@@ -16,13 +16,14 @@
 
 #include "ctype.h"
 #include "string.h"
+#include "Bytes.h"
 
 #define octet 		7 //really 8 digits but starts at zero
 #define nibble 		3 //really 4 bits
 #define offset 		1 //C programming offset to fortran
 //#define IMI
 
-int main(void){
+//int main(void){
 	/*
 	 * This was created for Kalitta Air as an attempt
 	 * to figure out the CRC for LDU messages
@@ -30,8 +31,9 @@ int main(void){
 	 */
 	//TODO: Figure out why its always skipping #1 when its char []
 	//char fx[16] = "10001000000100001"; 	//x^16 + x^12 + x^5 + x^0
-#ifdef IMI
-	char *textMsg = "ADS07-";
+//#ifdef IMI
+int IMI(char * textMsg){
+	//char *textMsg = "ADS07-";
 	//char *buff=" ";
 	//char *total_Buff;
 	int msg_length = 0;
@@ -71,11 +73,13 @@ int main(void){
 		//now this needs to be put into a buffer for later
 	}
 	return 0; //tells the user its returning in IMI mode
-#endif
+}
+//#endif
 
 #ifndef IMI
+int HEXAD(char *textMsg){
 	//here the code will work under the assumption is straigh bit/hex format
-	char *textMsg = "ADS07-";		//each one is looked at signularly
+	//char *textMsg = "ADS07-";		//each one is looked at signularly
 	int i,j;						//incrementor
 	i = j = 0;
 	int number = 0;
@@ -135,9 +139,9 @@ int main(void){
 	}
 
 	return 1;	//Tells user that we are in bit oriented mode
+}
 #endif
 
-
-}
+//}
 
 
