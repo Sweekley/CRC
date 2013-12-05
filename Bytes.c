@@ -32,7 +32,7 @@
 	//TODO: Figure out why its always skipping #1 when its char []
 	//char fx[16] = "10001000000100001"; 	//x^16 + x^12 + x^5 + x^0
 //#ifdef IMI
-int IMI(char * textMsg){
+int IMI(unsigned char * textMsg){
 	//char *textMsg = "ADS07-";
 	//char *buff=" ";
 	//char *total_Buff;
@@ -77,14 +77,14 @@ int IMI(char * textMsg){
 //#endif
 
 #ifndef IMI
-int HEXAD(char *textMsg){
+int HEXAD(unsigned char *textMsg){
 	//here the code will work under the assumption is straigh bit/hex format
 	//char *textMsg = "ADS07-";		//each one is looked at signularly
 	int i,j;						//incrementor
 	i = j = 0;
-	int number = 0;
+	unsigned int number = 0;
 	//int msg_length = (sizeof(textMsg)/sizeof(textMsg[0])-2);
-	int msg_length = strlen(textMsg)-1;
+	int msg_length = strlen((unsigned char *)textMsg)-1;
 	//char binary = " ";
 	//printf("Msg_length: %i \n",msg_length);
 	for(i=0; i<=msg_length; i++){
@@ -124,7 +124,7 @@ int HEXAD(char *textMsg){
 		}
 		printf("Num: %i \n",number);
 		for(j = 0; j<= nibble; j++){
-			if((number & 0x30 )!= 0){
+			if((number & 0x08 )!= 0){
 				printf("1");
 			}
 			else{

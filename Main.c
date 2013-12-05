@@ -4,16 +4,14 @@
  * to figure out the CRC for LDU messages
  * NOTE: This only works if IMI is always true
  */
-
-
-
+#include "Bytes.h"
 
 int main(void){
-	char *textMsg = "ADS07-";
+	unsigned char *textMsg = ((unsigned char *)"ADS07-");
+	unsigned char *ones = ((unsigned char *)"0123456789ABCDEF");
+	//IMI(textMsg);
+	HEXAD(ones);
 
-	IMI(textMsg);
-	HEXAD(textMsg);
-
-
+	return 0;
 }
 
