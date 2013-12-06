@@ -59,7 +59,7 @@ int IMI(unsigned char * textMsg){
 		printf("Number: %i\n", number);
 		//Now convert to binary
 		for(j = 0; j<= 7; j++){
-			if((number & 0x80 )!= 0){
+			if((number & 0x8 )!= 0){
 				printf("1");
 			}
 			else{
@@ -77,8 +77,8 @@ int IMI(unsigned char * textMsg){
 }
 //#endif
 
-#ifndef IMI
-int HEXAD(unsigned char *textMsg){
+//#ifndef IMI
+int HEX_CHAR_TO_BIN(unsigned char *textMsg){ //Best for one value
 	//here the code will work under the assumption is straigh bit/hex format
 	//char *textMsg = "ADS07-";		//each one is looked at signularly
 	int i,j;						//incrementor
@@ -89,7 +89,7 @@ int HEXAD(unsigned char *textMsg){
 	//char binary = " ";
 	//printf("Msg_length: %i \n",msg_length);
 	for(i=0; i<=msg_length; i++){
-		printf("increment: %i \n",i);
+		//printf("increment: %i \n",i);
 		//only need 1 char at a time
 		printf("Char: %c \n",textMsg[i]);
 		if((textMsg[i]>='0')&&(textMsg[i]<='9')){
@@ -141,8 +141,65 @@ int HEXAD(unsigned char *textMsg){
 
 	return 1;	//Tells user that we are in bit oriented mode
 }
-#endif
+//#endif
+void HEX_TO_BIN(unsigned int number){//big-endian
+	/*
+	 * This actually converts a hex value 0xFFFF to binary
+	 * TODO; display all on one line
+	 */
+	int j = 0;
+	//int length = sizeof(Hex_val)/ sizeof(unsigned long int);
+	//printf("Size: %i", length);
+	//unsigned long int number = Hex_Val;
+	printf("Num: %04X \n",number);
+	for(j = 0; j<= word/2 ; j++){
 
-//}
+		if((number & 0x8000)!= 0){
+			printf("1");
+		}
+		else{
+			printf("0");
+		}
+		if( j == 3  || j==7 || j ==11){
+			printf(" ");
+		}
+		number = number << 1;
+		//printf("%i",j);
+	}
+	printf("\n \n");
+
+}
+//adding overloaded HEX_TO_BIN for unsigned int long
+void HEX_TO_BIN_WORD(unsigned int long number){//big-endian
+	/*
+	 * This actually converts a hex value 0xFFFF to binary
+	 * TODO; display all on one line
+	 */
+	int j = 0;
+	//int length = sizeof(Hex_val)/ sizeof(unsigned long int);
+	//printf("Size: %i", length);
+	//unsigned long int number = Hex_Val;
+	printf("Num: %08X \n",number);
+	for(j = 0; j<= word; j++){
+
+		if((number & 0x80000000)!= 0){
+			printf("1");
+		}
+		else{
+			printf("0");
+		}
+		//TODO: need to find a better way to spit up the word
+		if(j==3||j==7||j==11||j==15||j==19||j==23||j==27){
+			printf(" ");
+		}
+		number = number << 1;
+		//printf("%i",j);
+	}
+	printf("\n \n");
+}
+//TODO: ASCII_HEX_TO_BIN
+/*
+ * Takes ascii table 3-1 in ARINC SPEC 618 and turns it in to binary
+ */
 
 
