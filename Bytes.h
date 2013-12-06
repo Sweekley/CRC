@@ -7,6 +7,9 @@
 #define BYTES_H_
 
 //extern void run8hz(void);
-int IMI(unsigned char *textMsg);
-int HEXAD(unsigned char *textMsg);
+//extern int ASCII_CHAR_TO(unsigned char *textMsg);
+extern int IMI(unsigned char *textMsg);
+extern int HEX_CHAR_TO_BIN(unsigned char *textMsg);
+extern void HEX_TO_BIN(unsigned int Hex_val);
+extern void HEX_TO_BIN_WORD(unsigned int long number);
 #endif

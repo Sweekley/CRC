@@ -18,9 +18,10 @@
 #include "string.h"
 #include "Bytes.h"
 
-#define octet 		7 //really 8 digits but starts at zero
-#define nibble 		3 //really 4 bits
-#define offset 		1 //C programming offset to fortran
+#define octet 		7 	//really 8 digits but starts at zero
+#define nibble 		3 	//really 4 bits
+#define offset 		1 	//C programming offset to fortran
+#define word 		31 	//length of a word
 //#define IMI
 
 //int main(void){
