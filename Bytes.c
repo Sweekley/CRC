@@ -293,7 +293,7 @@ int CRCCALC(char Message[],char rtnMsg[],char Fx[]){
 	}
 	//Assumption: F(x) starts with one(1).
 	i = 0;
-	while(strcmp(Message[i],"0") != 0){
+	while(Message[i] == '0'){
 		i++;
 	}
 	start = i; //where to start line up of variables
